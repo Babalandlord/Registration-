@@ -114,16 +114,14 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { 
-        message: 'Registration successful',
-        registration: registration?.[0]
-      },
+      { message: 'Registration successful', registration },
       { status: 201 }
     )
   } catch (error) {
-    console.error('Registration error:', error)
+    console.error('[v0] Unexpected error in registration:', error)
+    const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred'
     return NextResponse.json(
-      { message: 'An unexpected error occurred' },
+      { message: errorMessage, error: String(error) },
       { status: 500 }
     )
   }

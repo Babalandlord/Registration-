@@ -24,10 +24,12 @@ export async function GET(request: NextRequest) {
       .select('*', { count: 'exact' })
       .order('created_at', { ascending: false })
 
+    console.log('[v0] Registrations API - Data:', data, 'Error:', error, 'Count:', count)
+
     if (error) {
-      console.error('Database error:', error)
+      console.error('[v0] Database error:', error)
       return NextResponse.json(
-        { message: 'Failed to fetch registrations' },
+        { message: 'Failed to fetch registrations', error: error.message },
         { status: 500 }
       )
     }

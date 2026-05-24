@@ -49,7 +49,12 @@ export default function AdminDashboard() {
 
   const fetchRegistrations = async () => {
     try {
-      const response = await fetch('/api/admin/registrations')
+      const token = localStorage.getItem('adminToken')
+      const response = await fetch('/api/admin/registrations', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
       if (!response.ok) {
         if (response.status === 401) {
           router.push('/admin/login')
@@ -61,7 +66,7 @@ export default function AdminDashboard() {
       setRegistrations(data.registrations)
       setTotalCount(data.count)
     } catch (error) {
-      console.error('Error fetching registrations:', error)
+      console.error('[v0] Error fetching registrations:', error)
     } finally {
       setIsLoading(false)
     }

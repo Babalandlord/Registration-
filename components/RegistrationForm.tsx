@@ -43,6 +43,7 @@ export function RegistrationForm() {
 
   const onSubmit = async (data: RegistrationFormData) => {
     setIsSubmitting(true)
+    console.log('[v0] Submitting registration form:', data)
     try {
       const response = await fetch('/api/register', {
         method: 'POST',
@@ -50,20 +51,25 @@ export function RegistrationForm() {
         body: JSON.stringify(data),
       })
 
+      console.log('[v0] Response status:', response.status)
+      const responseData = await response.json()
+      console.log('[v0] Response data:', responseData)
+
       if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.message || 'Registration failed')
+        throw new Error(responseData.message || 'Registration failed')
       }
 
       toast({
-        title: 'Success!',
-        description: 'Registration successful. Check your email for confirmation.',
+        title: '✅ Success!',
+        description: 'You are now registered for the event. We sent a confirmation to your email.',
+        variant: 'default',
       })
       reset()
     } catch (error) {
+      console.error('[v0] Registration error:', error)
       toast({
-        title: 'Error',
-        description: error instanceof Error ? error.message : 'Registration failed',
+        title: '❌ Registration Failed',
+        description: error instanceof Error ? error.message : 'Something went wrong. Please try again.',
         variant: 'destructive',
       })
     } finally {
