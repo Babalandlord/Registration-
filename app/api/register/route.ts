@@ -126,19 +126,3 @@ export async function POST(request: NextRequest) {
     )
   }
 }
-
-    return NextResponse.json(
-      { 
-        message: 'Registration successful',
-        registration: registration?.[0]
-      },
-      { status: 201 }
-    )
-  } catch (error) {
-    console.error('Registration error:', error)
-    return NextResponse.json(
-      { message: 'An unexpected error occurred' },
-      { status: 500 }
-    )
-  }
-}
